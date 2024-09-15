@@ -1,6 +1,19 @@
 import requests
 from bs4 import BeautifulSoup
 import json
+import django
+import os
+import sys
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))))
+
+# Set the Django settings module
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'lowerparts.settings')
+
+# # Initialize Django
+django.setup()
+
+from products.models import Appliance
 
 class Scraper:
 
@@ -95,7 +108,7 @@ class Scraper:
 
                     if product_data:
 
-                        print(product_data)
+                        Appliance(**product_data).save()
 
                 page_no += 1
 
