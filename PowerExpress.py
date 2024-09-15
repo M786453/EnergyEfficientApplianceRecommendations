@@ -4,6 +4,10 @@ import json
 
 class Scraper:
 
+    def __init__(self):
+        
+        self.BASE_URL = "https://powerhouseexpress.com.pk"
+
     def scrape_product(self, product_url):
 
         product_dict = {"name": "", "description": "", "url": "", "image": "", "price": "", "availability": "", "power": "", "voltage": ""}
@@ -64,6 +68,37 @@ class Scraper:
             return product_dict
         else:
             return None
+        
+    def scrape_electrical_appliances(self):
 
-# print(Scraper().scrape_product('https://powerhouseexpress.com.pk/products/total-random-tf2041506-rotary-sander'))
-print(Scraper().scrape_product('https://powerhouseexpress.com.pk/products/decakila-kejb002w-stand-blender'))
+        page_no = 1
+
+        while True:
+
+            try:
+
+                print("Page#", page_no)
+        
+                ELECTRICAL_APPLIANCES_ENDPOINT = f"https://powerhouseexpress.com.pk/collections/electrical-appliances?page={page_no}"
+
+                response = requests.get(ELECTRICAL_APPLIANCES_ENDPOINT)
+
+                soup = BeautifulSoup(response.text, 'html.parser')
+
+                products_links = soup.find_all('h3', {'class': 'pbm-title'})
+
+                for product_lnk in products_links:
+
+                    product_lnk = product_lnk.find('a').get('href')
+
+                    product_data =self.scrape_product(product_url=self.BASE_URL + product_lnk)
+
+                    if product_data:
+
+                        print(product_data)
+
+                page_no += 1
+
+            except Exception as e:
+
+                print("Error @ scrape_electrical_appliances():", e)
