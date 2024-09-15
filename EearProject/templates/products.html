@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EEAR</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f7f7f7;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .product-container {
+            display: flex;
+            /* justify-content: space-between; */
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .product-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 300px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .product-card img {
+            max-width: 60%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .product-name {
+            font-size: 22px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: #6200ea;
+        }
+
+        .product-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .product-details {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .product-price {
+            font-size: 15px;
+            font-weight: 400;
+            color: #3700b3;
+            margin-bottom: 10px;
+        }
+
+        .product-availability {
+            color: #00c853;
+            font-weight: 200;
+        }
+
+        .product-unavailable {
+            color: #ff5252;
+            font-weight: 200;
+        }
+
+        .btn-buy {
+            background-color: #6200ea;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .link-buy{
+            text-decoration: none;
+            color: #fff;
+            font-size: 16px;
+        }
+
+        .btn-buy:hover {
+            background-color: #3700b3;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Recommended Appliances</h1>
+
+    <div class="product-container">
+
+        
+        {% if products %}
+        {% for product in products %}
+            <div class="product-card">
+                <img src="{{ product.Image }}" alt="Product Image 1">
+                <h2 class="product-name">{{ product.Name }}</h2>
+                <p class="product-description">{{ product.Description }}</p>
+                <div class="product-details">
+                    <span>Power: {{ product.Power }}</span>
+                    <span>Voltage: {{ product.Voltage }}</span>
+                </div>
+                <div class="product-price">PKR. {{ product.Price }}</div>
+                <div class="product-availability">{{ product.Availability }}</div>
+                <button class="btn-buy"><a class="link-buy" href="{{ product.Url }}">Buy Now</a></button>
+            </div>
+        {% endfor %}
+        {% else %}
+        <p>Not Product Found.</p>
+        {% endif %}
+
+    </div>
+
+</body>
+</html>
