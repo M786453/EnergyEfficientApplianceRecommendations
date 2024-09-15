@@ -6,10 +6,10 @@ import os
 import sys
 import time
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 # Set the Django settings module
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'lowerparts.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'EearProject.settings')
 
 # # Initialize Django
 django.setup()
@@ -92,10 +92,17 @@ class Scraper:
             try:
 
                 print("Page#", page_no)
-        
-                ELECTRICAL_APPLIANCES_ENDPOINT = f"https://powerhouseexpress.com.pk/collections/electrical-appliances?page={page_no}"
 
-                response = requests.get(ELECTRICAL_APPLIANCES_ENDPOINT)
+                with open("pageno.txt", "w") as f:
+                    f.write(str(page_no))
+        
+                # ELECTRICAL_APPLIANCES_ENDPOINT = f"https://powerhouseexpress.com.pk/collections/electrical-appliances?page={page_no}"
+
+                # HOME_APPLIANCES_ENDPOINT = f"https://powerhouseexpress.com.pk/collections/home-appliances?page={page_no}"
+
+                KITCHEN_APPLIANCES_ENDPOINT = f"https://powerhouseexpress.com.pk/collections/kitchen-appliances?page={page_no}"
+
+                response = requests.get(KITCHEN_APPLIANCES_ENDPOINT)
 
                 soup = BeautifulSoup(response.text, 'html.parser')
 
@@ -103,18 +110,36 @@ class Scraper:
 
                 for product_lnk in products_links:
 
-                    product_lnk = product_lnk.find('a').get('href')
+                    try:
 
-                    product_data =self.scrape_product(product_url=self.BASE_URL + product_lnk)
+                        product_lnk = product_lnk.find('a').get('href')
 
-                    if product_data:
+                        product_data =self.scrape_product(product_url=self.BASE_URL + product_lnk)
 
-                        Appliance(**product_data).save()
+                        if product_data:
+                            
+                            record = Appliance.objects.filter(name=product_data["name"])
 
-                        time.sleep(5)
+                            if not record.exists():
+
+                                Appliance(**product_data).save()
+
+                                print(f"Product '{product_data["name"]}' saved.")
+                            
+                            else:
+
+                                print(f"Product '{product_data["name"]}' exists.")
+
+                    except Exception as e:
+
+                        print("Error in looping through products links:")
 
                 page_no += 1
 
             except Exception as e:
 
                 print("Error @ scrape_electrical_appliances():", e)
+
+if __name__ == "__main__":
+
+    Scraper().scrape_electrical_appliances()
