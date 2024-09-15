@@ -22,7 +22,46 @@ const dummyProducts: Product[] = [
     power: '150W',
     voltage: '110V',
   },
-  // Add more dummy products here
+  {
+    id: 3,
+    name: 'Smart Washing Machine',
+    description: 'Wi-Fi enabled washer with multiple wash cycles',
+    image: 'https://example.com/washer.jpg',
+    price: 899.99,
+    availability: true,
+    power: '1200W',
+    voltage: '220V',
+  },
+  {
+    id: 4,
+    name: 'Air Purifier',
+    description: 'HEPA filter air purifier with air quality sensor',
+    image: 'https://example.com/airpurifier.jpg',
+    price: 299.99,
+    availability: false,
+    power: '60W',
+    voltage: '110V',
+  },
+  {
+    id: 5,
+    name: 'Smart Oven',
+    description: 'Convection oven with smartphone control',
+    image: 'https://example.com/oven.jpg',
+    price: 749.99,
+    availability: true,
+    power: '1800W',
+    voltage: '220V',
+  },
+  {
+    id: 6,
+    name: 'Robot Mop',
+    description: 'Automated mopping robot with mapping technology',
+    image: 'https://example.com/robotmop.jpg',
+    price: 349.99,
+    availability: true,
+    power: '40W',
+    voltage: '110V',
+  }
 ];
 
 export default function Products() {
