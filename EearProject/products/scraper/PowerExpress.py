@@ -4,6 +4,7 @@ import json
 import django
 import os
 import sys
+import time
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))))
 
@@ -109,6 +110,8 @@ class Scraper:
                     if product_data:
 
                         Appliance(**product_data).save()
+
+                        time.sleep(5)
 
                 page_no += 1
 
